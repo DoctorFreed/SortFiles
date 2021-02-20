@@ -1,3 +1,10 @@
+#TODO Сделать рекурсию, когда в категории может быть еще одна категория
+#TODO Возможность хранения патерна в json файле
+#TODO аргументы для командной строки, указания json файла, и различных состояний
+#TODO Сделать логирование, что куда было перемещено
+#TODO Найти способ справляться с дубликатами
+#TODO Сделать для программы GUI на QT
+
 import os
 
 PATERN_EXT = {
@@ -47,7 +54,8 @@ class Sort:
                     if not os.path.isdir(file.path_folder + '\\' + cat):
                         os.mkdir(file.path_folder + '\\' + cat)
                     try:
-                        os.rename(file.full_path, file.path_folder + '\\' + cat + '\\' + file.name)
+                        os.rename(file.full_path, 
+                        file.path_folder + '\\' + cat + '\\' + file.name)
                     except:
                         print('Error file : ', file.name)
 
@@ -57,8 +65,6 @@ files = []
 for file in files_raw:
     if os.path.isfile(M_DIR + '\\' + file):
         files.append(File(file, M_DIR))
-srt = Sort(files)
-srt.sorting()
         
 
 # files = os.listdir(m_dir)
