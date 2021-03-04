@@ -1,12 +1,11 @@
-
-#TODO Возможность хранения патерна в json файле
 #TODO аргументы для командной строки, указания json файла, и различных состояний
 #TODO Сделать логирование, что куда было перемещено
 #TODO Найти способ справляться с дубликатами
 #TODO Сделать для программы GUI на QT
 
-
+import json
 import os
+import argparse
 
 PATERN_EXT = {
     'Audio' : ['.mp3', '.aac', '.flac', '.m4r', '.ogg', '.wav', '.m4p', '.m4b', '.m4a'],
@@ -21,6 +20,15 @@ PATERN_EXT = {
 
 M_DIR = 'C:\\Users\\roman\\Downloads\\' 
 IS_UNKNOWN = True
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-j', '--json', help='', type=str, default='')
+    
+    args = parser.parse_args()
+    return args
+
+
 
 class File:
     def __init__(self, name: str, path_folder: str) -> None:
@@ -49,19 +57,19 @@ class Sort:
     def __init__(self, files: list) -> None:
         self.__files = files
 
-    def foo(self, paterns: dict, ext: str, old=''):
+    def search_path(self, paterns: dict, ext: str, old=''):
         for p in paterns:
             if isinstance(paterns[p], list) and ext in paterns[p]:
                 return old + '\\' + str(p) + '\\'
             elif isinstance(paterns[p], dict):
-                return old + self.foo(paterns[p],ext,str(p))
+                return old + self.search_path(paterns[p],ext,str(p))
             else:
                 continue
 
     def sorting(self):
         for file in self.__files:
             try:
-                path_to_sort = self.foo(PATERN_EXT, file.ext)
+                path_to_sort = self.search_path(PATERN_EXT, file.ext)
             except:
                 if IS_UNKNOWN:
                     path_to_sort = 'UNKNOWN' + '\\'
@@ -77,7 +85,17 @@ class Sort:
                 print(file.name, 'Error!')
         
 
-def main():    
+def json_pars(path='sample.json'):
+    if os.path.isfile(path):
+        with open(path, 'w') as file:
+            json.dump(PATERN_EXT, file)
+    else:
+        print('File', path, 'does not exist')
+
+def main():
+    args = parse_args()
+    if args.json:
+        json_pars(args.json)  
     files_raw = os.listdir(M_DIR)
     files = []
     for file in files_raw:
