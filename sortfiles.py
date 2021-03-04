@@ -1,4 +1,4 @@
-#TODO Решить проблему с неизвестным форматом
+
 #TODO Возможность хранения патерна в json файле
 #TODO аргументы для командной строки, указания json файла, и различных состояний
 #TODO Сделать логирование, что куда было перемещено
@@ -20,6 +20,7 @@ PATERN_EXT = {
 }
 
 M_DIR = 'C:\\Users\\roman\\Downloads\\' 
+IS_UNKNOWN = True
 
 class File:
     def __init__(self, name: str, path_folder: str) -> None:
@@ -59,7 +60,13 @@ class Sort:
 
     def sorting(self):
         for file in self.__files:
-            path_to_sort = self.foo(PATERN_EXT, file.ext)
+            try:
+                path_to_sort = self.foo(PATERN_EXT, file.ext)
+            except:
+                if IS_UNKNOWN:
+                    path_to_sort = 'UNKNOWN' + '\\'
+                else:
+                    continue
             if not os.path.isdir(M_DIR + path_to_sort):
                 os.makedirs(M_DIR + path_to_sort)
             try:
