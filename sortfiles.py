@@ -1,9 +1,10 @@
-#TODO Сделать рекурсию, когда в категории может быть еще одна категория
+#TODO Решить проблему с неизвестным форматом
 #TODO Возможность хранения патерна в json файле
 #TODO аргументы для командной строки, указания json файла, и различных состояний
 #TODO Сделать логирование, что куда было перемещено
 #TODO Найти способ справляться с дубликатами
 #TODO Сделать для программы GUI на QT
+
 
 import os
 
@@ -15,10 +16,10 @@ PATERN_EXT = {
     'Archives' : ['.gz', '.tar', '.zip', '.rar', '.7z'],
     'Video' : ['.mp4', '.flv', '.avi', '.mkv', '.mov', '.webm'],
     'Soft' : ['.exe', '.msi'],
-    'Source Code' : ['.cpp', '.py']
+    'Source Code' : {'C++' : ['.cpp'], 'Python' : ['.py']}
 }
 
-M_DIR = 'C:\\Users\\roman\\Downloads' 
+M_DIR = 'C:\\Users\\roman\\Downloads\\' 
 
 class File:
     def __init__(self, name: str, path_folder: str) -> None:
@@ -26,7 +27,7 @@ class File:
         self.__path_folder = path_folder
         self.__full_path = path_folder + '\\' + name
         self.__ext = os.path.splitext(self.__full_path)[1].lower()
-    
+
     @property
     def name(self):
         return self.__name
@@ -46,37 +47,39 @@ class File:
 class Sort:
     def __init__(self, files: list) -> None:
         self.__files = files
-    
+
+    def foo(self, paterns: dict, ext: str, old=''):
+        for p in paterns:
+            if isinstance(paterns[p], list) and ext in paterns[p]:
+                return old + '\\' + str(p) + '\\'
+            elif isinstance(paterns[p], dict):
+                return old + self.foo(paterns[p],ext,str(p))
+            else:
+                continue
+
     def sorting(self):
         for file in self.__files:
-            for cat in PATERN_EXT:
-                if file.ext in PATERN_EXT[cat]:
-                    if not os.path.isdir(file.path_folder + '\\' + cat):
-                        os.mkdir(file.path_folder + '\\' + cat)
-                    try:
-                        os.rename(file.full_path, 
-                        file.path_folder + '\\' + cat + '\\' + file.name)
-                    except:
-                        print('Error file : ', file.name)
-
-        
-files_raw = os.listdir(M_DIR)
-files = []
-for file in files_raw:
-    if os.path.isfile(M_DIR + '\\' + file):
-        files.append(File(file, M_DIR))
+            path_to_sort = self.foo(PATERN_EXT, file.ext)
+            if not os.path.isdir(M_DIR + path_to_sort):
+                os.makedirs(M_DIR + path_to_sort)
+            try:
+                os.rename(
+                file.full_path, file.path_folder + '\\' + path_to_sort + file.name
+                )
+            except:
+                print(file.name, 'Error!')
         
 
-# files = os.listdir(m_dir)
-# for file in files:
-#     full_name = os.path.basename(
-#         m_dir + '\\' + file)
-#     ext = os.path.splitext(full_name)[1].lower()
-#     for cat in patern:
-#         if ext in patern[cat]:
-#             if not os.path.isdir(m_dir + '\\' + cat):
-#                 os.mkdir(m_dir + '\\' + cat)
-#             try:
-#                 os.rename(m_dir + '\\' + file, m_dir + '\\' + cat + '\\' + file)
-#             except:
-#                 print('Error file : ', file)
+def main():    
+    files_raw = os.listdir(M_DIR)
+    files = []
+    for file in files_raw:
+        if os.path.isfile(M_DIR + '\\' + file):
+            files.append(File(file, M_DIR))
+    s = Sort(files)
+    s.sorting()
+
+if __name__ == "__main__":
+    main()
+
+
