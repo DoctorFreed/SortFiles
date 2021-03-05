@@ -1,33 +1,42 @@
-#TODO аргументы для командной строки, указания json файла, и различных состояний
-#TODO Сделать логирование, что куда было перемещено
-#TODO Найти способ справляться с дубликатами
-#TODO Сделать для программы GUI на QT
+# TODO аргументы для командной строки, указания json файла, и различных состояний
+# TODO Сделать логирование, что куда было перемещено
+# TODO Найти способ справляться с дубликатами
+# TODO Сделать для программы GUI на QT
 
 import json
 import os
 import argparse
 
 PATERN_EXT = {
-    'Audio' : ['.mp3', '.aac', '.flac', '.m4r', '.ogg', '.wav', '.m4p', '.m4b', '.m4a'],
-    'Images' : ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.ico', '.psd'],
-    'Documents' : ['.doc', '.pdf', '.txt', '.xlsx', '.pptx', '.docx', '.ppt', '.xls', '.ini'],
-    'Torrents' : ['.torrent'],
-    'Archives' : ['.gz', '.tar', '.zip', '.rar', '.7z'],
-    'Video' : ['.mp4', '.flv', '.avi', '.mkv', '.mov', '.webm'],
-    'Soft' : ['.exe', '.msi'],
-    'Source Code' : {'C++' : ['.cpp'], 'Python' : ['.py']}
+    'Audio': ['.mp3', '.aac', '.flac', '.m4r', '.ogg', '.wav', '.m4p', '.m4b', '.m4a'],
+    'Images': ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.ico', '.psd'],
+    'Documents': ['.doc', '.pdf', '.txt', '.xlsx', '.pptx', '.docx', '.ppt', '.xls', '.ini'],
+    'Torrents': ['.torrent'],
+    'Archives': ['.gz', '.tar', '.zip', '.rar', '.7z'],
+    'Video': ['.mp4', '.flv', '.avi', '.mkv', '.mov', '.webm'],
+    'Soft': ['.exe', '.msi'],
+    'Source Code': {'C++': ['.cpp'], 'Python': ['.py']}
 }
 
-M_DIR = 'C:\\Users\\roman\\Downloads\\' 
+M_DIR = 'C:\\Users\\roman\\Downloads\\'
 IS_UNKNOWN = True
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-j', '--json', help='', type=str, default='')
-    
+    parser.add_argument('-j', '--json', help='the path to the json file,'
+                        'if the argument is not specified,'
+                        'the sample.json file will be used. '
+                        'If there is no file, the pattern that is already '
+                        'in the code will be used.', type=str, default='')
+    parser.add_argument('-u', '--unknown', help='by specifying this argument,'
+                        'unknown formats will '
+                        'be sorted into the "UNKNOWN" folder.'
+                        'By default, this sorting '
+                        'does not occur.', type=bool, default=False)
+
     args = parser.parse_args()
     return args
-
 
 
 class File:
@@ -40,18 +49,19 @@ class File:
     @property
     def name(self):
         return self.__name
-    
+
     @property
     def path_folder(self):
         return self.__path_folder
-    
+
     @property
     def full_path(self):
         return self.__full_path
-    
+
     @property
     def ext(self):
         return self.__ext
+
 
 class Sort:
     def __init__(self, files: list) -> None:
@@ -62,7 +72,7 @@ class Sort:
             if isinstance(paterns[p], list) and ext in paterns[p]:
                 return old + '\\' + str(p) + '\\'
             elif isinstance(paterns[p], dict):
-                return old + self.search_path(paterns[p],ext,str(p))
+                return old + self.search_path(paterns[p], ext, str(p))
             else:
                 continue
 
@@ -79,11 +89,11 @@ class Sort:
                 os.makedirs(M_DIR + path_to_sort)
             try:
                 os.rename(
-                file.full_path, file.path_folder + '\\' + path_to_sort + file.name
+                    file.full_path, file.path_folder + '\\' + path_to_sort + file.name
                 )
             except:
                 print(file.name, 'Error!')
-        
+
 
 def json_pars(path='sample.json'):
     if os.path.isfile(path):
@@ -92,10 +102,13 @@ def json_pars(path='sample.json'):
     else:
         print('File', path, 'does not exist')
 
+
 def main():
     args = parse_args()
+    if not args.unknown:
+        IS_UNKNOWN = False
     if args.json:
-        json_pars(args.json)  
+        json_pars(args.json)
     files_raw = os.listdir(M_DIR)
     files = []
     for file in files_raw:
@@ -104,7 +117,6 @@ def main():
     s = Sort(files)
     s.sorting()
 
+
 if __name__ == "__main__":
     main()
-
-
