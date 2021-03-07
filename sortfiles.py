@@ -1,4 +1,3 @@
-# TODO аргументы для командной строки, указания json файла, и различных состояний
 # TODO Сделать логирование, что куда было перемещено
 # TODO Найти способ справляться с дубликатами
 # TODO Сделать для программы GUI на QT
@@ -18,12 +17,18 @@ PATERN_EXT = {
     'Source Code': {'C++': ['.cpp'], 'Python': ['.py']}
 }
 
-M_DIR = 'C:\\Users\\roman\\Downloads\\'
+#M_DIR = 'C:\\Users\\roman\\Downloads\\'
+M_DIR = ''
 IS_UNKNOWN = True
 
 
 def parse_args():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description='SortFiles - script for sorting your files \n'
+        'https://github.com/DoctorFreed/SortFiles'
+    )
+    parser.add_argument('folder', help='Specify the folder where'
+                        ' the files will be sorted', type=str)
     parser.add_argument('-j', '--json', help='the path to the json file,'
                         'if the argument is not specified,'
                         'the sample.json file will be used. '
@@ -109,6 +114,7 @@ def main():
         IS_UNKNOWN = False
     if args.json:
         json_pars(args.json)
+    M_DIR = args.folder
     files_raw = os.listdir(M_DIR)
     files = []
     for file in files_raw:
