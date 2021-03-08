@@ -18,8 +18,6 @@ PATERN_EXT = {
 }
 
 #M_DIR = 'C:\\Users\\roman\\Downloads\\'
-M_DIR = ''
-IS_UNKNOWN = True
 
 
 def parse_args():
@@ -29,16 +27,16 @@ def parse_args():
     )
     parser.add_argument('folder', help='Specify the folder where'
                         ' the files will be sorted', type=str)
-    parser.add_argument('-j', '--json', help='the path to the json file,'
-                        'if the argument is not specified,'
-                        'the sample.json file will be used. '
-                        'If there is no file, the pattern that is already '
-                        'in the code will be used.', type=str, default='')
+    parser.add_argument('-j', '--json', help='The path to the json file,'
+                        ' if the argument is not specified,'
+                        ' the patern.json file will be used.'
+                        ' If there is no file, the pattern that is already'
+                        ' in the code will be used.', type=str, default='')
     parser.add_argument('-u', '--unknown', help='by specifying this argument,'
-                        'unknown formats will '
-                        'be sorted into the "UNKNOWN" folder.'
-                        'By default, this sorting '
-                        'does not occur.', type=bool, default=False)
+                        ' unknown formats will '
+                        ' be sorted into the "UNKNOWN" folder.'
+                        ' By default, this sorting '
+                        ' does not occur.', action='store_true')
 
     args = parser.parse_args()
     return args
@@ -69,10 +67,11 @@ class File:
 
 
 class Sort:
-    def __init__(self, files: list) -> None:
+    def __init__(self, files: list, unknown_mode=False) -> None:
         self.__files = files
+        self.__unknown_mode = unknown_mode
 
-    def search_path(self, paterns: dict, ext: str, old=''):
+    def search_path(self, paterns: dict, ext: str, old='') -> str:
         for p in paterns:
             if isinstance(paterns[p], list) and ext in paterns[p]:
                 return old + '\\' + str(p) + '\\'
@@ -81,17 +80,17 @@ class Sort:
             else:
                 continue
 
-    def sorting(self):
+    def sorting(self) -> None:
         for file in self.__files:
             try:
                 path_to_sort = self.search_path(PATERN_EXT, file.ext)
             except:
-                if IS_UNKNOWN:
+                if self.__unknown_mode:
                     path_to_sort = 'UNKNOWN' + '\\'
                 else:
                     continue
-            if not os.path.isdir(M_DIR + path_to_sort):
-                os.makedirs(M_DIR + path_to_sort)
+            if not os.path.isdir(file.path_folder + path_to_sort):
+                os.makedirs(file.path_folder + path_to_sort)
             try:
                 os.rename(
                     file.full_path, file.path_folder + '\\' + path_to_sort + file.name
@@ -100,7 +99,7 @@ class Sort:
                 print(file.name, 'Error!')
 
 
-def json_pars(path='sample.json'):
+def json_pars(path='patern.json') -> None:
     if os.path.isfile(path):
         with open(path, 'w') as file:
             json.dump(PATERN_EXT, file)
@@ -110,17 +109,15 @@ def json_pars(path='sample.json'):
 
 def main():
     args = parse_args()
-    if not args.unknown:
-        IS_UNKNOWN = False
     if args.json:
         json_pars(args.json)
-    M_DIR = args.folder
-    files_raw = os.listdir(M_DIR)
+    m_dir = args.folder + '\\'
+    files_raw = os.listdir(m_dir)
     files = []
     for file in files_raw:
-        if os.path.isfile(M_DIR + '\\' + file):
-            files.append(File(file, M_DIR))
-    s = Sort(files)
+        if os.path.isfile(m_dir + '\\' + file):
+            files.append(File(file, m_dir))
+    s = Sort(files, args.unknown)
     s.sorting()
 
 
