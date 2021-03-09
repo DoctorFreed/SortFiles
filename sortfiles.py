@@ -40,9 +40,9 @@ def logger_info_setup() -> None:
     file_info.setFormatter(format_logger_info)
     logger.addHandler(file_info)
 
-# Parsing command-line arguments
-
-
+# ---------------------------------------------------------------------------
+#   Parsing command line arguments
+# ---------------------------------------------------------------------------
 def parse_args():
     logger.debug('start parsing command line arguments')
     parser = argparse.ArgumentParser(
