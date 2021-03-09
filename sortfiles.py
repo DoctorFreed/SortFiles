@@ -1,10 +1,11 @@
 # TODO Сделать логирование, что куда было перемещено
-# TODO Найти способ справляться с дубликатами
 # TODO Сделать для программы GUI на QT
 
 import json
 import os
 import argparse
+from random import randint
+
 
 PATERN_EXT = {
     'Audio': ['.mp3', '.aac', '.flac', '.m4r', '.ogg', '.wav', '.m4p', '.m4b', '.m4a'],
@@ -48,10 +49,15 @@ class File:
         self.__path_folder = path_folder
         self.__full_path = path_folder + '\\' + name
         self.__ext = os.path.splitext(self.__full_path)[1].lower()
+        self.__clear_name = os.path.splitext(name)[0]
 
     @property
     def name(self):
         return self.__name
+
+    @name.setter
+    def name(self, name: str):
+        self.__name = name + self.__ext
 
     @property
     def path_folder(self):
@@ -64,6 +70,10 @@ class File:
     @property
     def ext(self):
         return self.__ext
+
+    @property
+    def clear_name(self):
+        return self.__clear_name
 
 
 class Sort:
@@ -80,6 +90,14 @@ class Sort:
             else:
                 continue
 
+    def rename_file(self, file: File, new_name='') -> str:
+        if not new_name:
+           new_name = file.clear_name + '(copy {})'.format(randint(1,1000)) + file.ext
+        else:
+            #TODO сделать проверку на точно такое же имя, проверить написали ли расширение
+            new_name = new_name + file.ext
+        return new_name
+
     def sorting(self) -> None:
         for file in self.__files:
             try:
@@ -91,12 +109,19 @@ class Sort:
                     continue
             if not os.path.isdir(file.path_folder + path_to_sort):
                 os.makedirs(file.path_folder + path_to_sort)
+            new_path = file.path_folder + '\\' + path_to_sort + file.name
             try:
                 os.rename(
-                    file.full_path, file.path_folder + '\\' + path_to_sort + file.name
+                    file.full_path, new_path
                 )
             except:
-                print(file.name, 'Error!')
+                if os.path.isfile(new_path):
+                    print('File', file.name, 'is already exist, rename it.')
+                    new_name = self.rename_file(file)
+                    new_path = file.path_folder + '\\' + path_to_sort + new_name
+                    os.rename(file.full_path, new_path)
+                else:
+                    print(file.name, 'Error!')
 
 
 def json_pars(path='patern.json') -> None:
