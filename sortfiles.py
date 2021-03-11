@@ -63,15 +63,24 @@ def parse_args():
                         ' be sorted into the "UNKNOWN" folder.'
                         ' By default, this sorting '
                         ' does not occur.', action='store_true')
-    parser.add_argument('-d', '--debug', help='', action='store_true')
-    parser.add_argument('-l', '--log', help='', action='store_true')
+    parser.add_argument('-d', '--debug', help='writes all the work of the script'
+                        ' to the debug.log file', action='store_true')
+    parser.add_argument('-l', '--log', help='writes to the info.log file about where'
+                        ' the files were moved to', action='store_true')
 
     args = parser.parse_args()
     logger.debug('Parsing passed, return args')
     return args
 
+# ---------------------------------------------------------------------------
+#   Implementation of the File class
+# ---------------------------------------------------------------------------
+
 
 class File:
+    """
+        
+    """
     def __init__(self, name: str, path_folder: str) -> None:
         self.__name = name
         self.__path_folder = path_folder
@@ -79,9 +88,10 @@ class File:
         self.__ext = os.path.splitext(self.__full_path)[1].lower()
         self.__clear_name = os.path.splitext(name)[0]
         logger.debug('An object of the File type was created. \n'
-                     'Name : {} \nPath Folder : {} \nFull Path : {} \nExt : {} \nClear Name : {}'
-                     .format(self.__name, self.__path_folder,
-                             self.__full_path, self.__ext, self.__clear_name))
+                     'Name : {} \nPath Folder : {} \nFull Path : {}'.format(
+                         self.__name, self.__path_folder, self.__full_path
+                     )+'\nExt : {} \nClear Name : {}'.format(
+                         self.__ext, self.__clear_name))
 
     @property
     def name(self):
@@ -106,6 +116,10 @@ class File:
     @property
     def clear_name(self):
         return self.__clear_name
+
+# ---------------------------------------------------------------------------
+#   Implementation of the Sort class
+# ---------------------------------------------------------------------------
 
 
 class Sort:
@@ -135,9 +149,8 @@ class Sort:
                 '(copy {})'.format(randint(1, 1000)) + file.ext
             logger.debug('New name file: {}'.format(new_name))
         else:
-            # TODO сделать проверку на точно такое же имя, проверить написали ли расширение
             new_name = new_name + file.ext
-        logger.debug('File renaming completed')
+        logger.debug('File renaming completed, return {}'.format(new_name))
         return new_name
 
     def sorting(self) -> None:
@@ -187,6 +200,10 @@ class Sort:
                     logger.error(
                         'The file could not be transferred in any way')
 
+# ---------------------------------------------------------------------------
+#   Function for configuring a template by JSON
+# ---------------------------------------------------------------------------
+
 
 def json_pars(path='template.json') -> None:
     logger.debug('Configuring a JSON template')
@@ -199,6 +216,10 @@ def json_pars(path='template.json') -> None:
     else:
         logger.error('File {} does not exist'.format(path))
         logger.debug('We use a ready-made template')
+
+# ---------------------------------------------------------------------------
+#   Running the script
+# ---------------------------------------------------------------------------
 
 
 def main():
@@ -213,7 +234,8 @@ def main():
         logger.debug('The argument for enabling log is specified')
         logger_info_setup()
     m_dir = args.folder + '\\'
-    logger.debug('The main directory [{}] for sorting is installed'.format(m_dir))
+    logger.debug(
+        'The main directory [{}] for sorting is installed'.format(m_dir))
     files_raw = os.listdir(m_dir)
     logger.debug('All files in the folder are received')
     logger.debug(files_raw)
