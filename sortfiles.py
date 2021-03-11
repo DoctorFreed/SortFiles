@@ -7,7 +7,7 @@ from random import randint
 # ---------------------------------------------------------------------------
 #   Pattern for sorting if the json file is not detected
 # ---------------------------------------------------------------------------
-PATERN_EXT = {
+TEMPLATE_EXT = {
     'Audio': ['.mp3', '.aac', '.flac', '.m4r', '.ogg', '.wav', '.m4p', '.m4b', '.m4a'],
     'Images': ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.ico', '.psd'],
     'Documents': ['.doc', '.pdf', '.txt', '.xlsx', '.pptx', '.docx', '.ppt', '.xls', '.ini'],
@@ -55,8 +55,8 @@ def parse_args():
                         ' the files will be sorted', type=str)
     parser.add_argument('-j', '--json', help='The path to the json file,'
                         ' if the argument is not specified,'
-                        ' the patern.json file will be used.'
-                        ' If there is no file, the pattern that is already'
+                        ' the template.json file will be used.'
+                        ' If there is no file, the template that is already'
                         ' in the code will be used.', type=str, default='')
     parser.add_argument('-u', '--unknown', help='by specifying this argument,'
                         ' unknown formats will '
@@ -146,7 +146,7 @@ class Sort:
             try:
                 logger.debug(
                     '{} - looking for a sorting path in the template'.format(file.name))
-                path_to_sort = self.search_path(PATERN_EXT, file.ext)
+                path_to_sort = self.search_path(TEMPLATE_EXT, file.ext)
             except:
                 logger.error(
                     '{} - has an unknown extension {}'.format(file.name, file.ext))
@@ -184,16 +184,21 @@ class Sort:
                                  .format(file.full_path, new_path))
                     os.rename(file.full_path, new_path)
                 else:
-                    logger.error('The file could not be transferred in any way')
+                    logger.error(
+                        'The file could not be transferred in any way')
 
 
-def json_pars(path='patern.json') -> None:
-    logger.debug('')
+def json_pars(path='template.json') -> None:
+    logger.debug('Configuring a JSON template')
     if os.path.isfile(path):
+        logger.debug('The transferred file exists,'
+                     ' it is being written to the dictionary')
         with open(path, 'w') as file:
-            json.dump(PATERN_EXT, file)
+            json.dump(TEMPLATE_EXT, file)
+        logger.debug('The dictionary is ready to use')
     else:
-        print('File', path, 'does not exist')
+        logger.error('File {} does not exist'.format(path))
+        logger.debug('We use a ready-made template')
 
 
 def main():
@@ -202,11 +207,16 @@ def main():
         json_pars(args.json)
     if args.debug:
         logger.setLevel(logging.DEBUG)
+        logger.debug('The logging level is set to DEBUG')
         logger_debug_setup()
     if args.log:
+        logger.debug('The argument for enabling log is specified')
         logger_info_setup()
     m_dir = args.folder + '\\'
+    logger.debug('The main directory [{}] for sorting is installed'.format(m_dir))
     files_raw = os.listdir(m_dir)
+    logger.debug('All files in the folder are received')
+    logger.debug(files_raw)
     files = []
     for file in files_raw:
         if os.path.isfile(m_dir + '\\' + file):
