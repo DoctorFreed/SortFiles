@@ -23,8 +23,8 @@ PATERN_EXT = {
 # ---------------------------------------------------------------------------
 logger = logging.getLogger(__name__)
 format_logger_debug = logging.Formatter(
-    '%(asctime)s : %(levelname)s : %(funcName)s : %(message)s')
-format_logger_info = logging.Formatter('%(asctime)s : %(message)s')
+    '[%(levelname)s] (%(asctime)s) : %(funcName)s : %(message)s')
+format_logger_info = logging.Formatter('(%(asctime)s) - %(message)s')
 
 
 def logger_debug_setup() -> None:
@@ -43,6 +43,8 @@ def logger_info_setup() -> None:
 # ---------------------------------------------------------------------------
 #   Parsing command line arguments
 # ---------------------------------------------------------------------------
+
+
 def parse_args():
     logger.debug('start parsing command line arguments')
     parser = argparse.ArgumentParser(
@@ -139,33 +141,54 @@ class Sort:
         return new_name
 
     def sorting(self) -> None:
+        logger.debug('Start sorting files')
         for file in self.__files:
             try:
+                logger.debug(
+                    '{} - looking for a sorting path in the template'.format(file.name))
                 path_to_sort = self.search_path(PATERN_EXT, file.ext)
             except:
+                logger.error(
+                    '{} - has an unknown extension {}'.format(file.name, file.ext))
                 if self.__unknown_mode:
+                    logger.debug(
+                        'Unknown mode is enabled, the file will be moved to this folder')
                     path_to_sort = 'UNKNOWN' + '\\'
                 else:
+                    logger.debug(
+                        'Unknown mode is disabled, the file will not be moved')
                     continue
+            logger.debug('Checking for the existence of a folder - {}'
+                         .format(file.path_folder + path_to_sort))
             if not os.path.isdir(file.path_folder + path_to_sort):
                 os.makedirs(file.path_folder + path_to_sort)
+                logger.debug('Folder {} was created'.format(
+                    file.path_folder + path_to_sort))
             new_path = file.path_folder + '\\' + path_to_sort + file.name
             try:
+                logger.debug('Attempt to move a file to a new location')
                 os.rename(
                     file.full_path, new_path
                 )
-                logger.info('File : {} sort to {}'.format(file.full_path, new_path))
+                logger.info('File [{}] moved to [{}]'.format(
+                    file.full_path, new_path))
             except:
+                logger.error('File [{}] transfer Error'.format(file.name))
                 if os.path.isfile(new_path):
-                    print('File', file.name, 'is already exist, rename it.')
+                    logger.error('File [{}] is already exist, rename it.'
+                                 .format(file.name))
                     new_name = self.rename_file(file)
+                    logger.debug('Attempt to move a file to a new location')
                     new_path = file.path_folder + '\\' + path_to_sort + new_name
+                    logger.debug('Transferring a file [{}] move to [{}]'
+                                 .format(file.full_path, new_path))
                     os.rename(file.full_path, new_path)
                 else:
-                    print(file.name, 'Error!')
+                    logger.error('The file could not be transferred in any way')
 
 
 def json_pars(path='patern.json') -> None:
+    logger.debug('')
     if os.path.isfile(path):
         with open(path, 'w') as file:
             json.dump(PATERN_EXT, file)
@@ -181,7 +204,6 @@ def main():
         logger.setLevel(logging.DEBUG)
         logger_debug_setup()
     if args.log:
-        logger.setLevel(logging.INFO)
         logger_info_setup()
     m_dir = args.folder + '\\'
     files_raw = os.listdir(m_dir)
