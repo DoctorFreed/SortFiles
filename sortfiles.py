@@ -1,3 +1,5 @@
+#TODO: задокументируй код!
+
 import json
 import os
 import argparse
@@ -79,9 +81,33 @@ def parse_args():
 
 class File:
     """
-        
+    A class used to store information about a file
+
+    ...
+
+    Attributes
+    ----------
+    name : str
+        file name and extension
+    path_folder : str
+        the folder where the file is located
+    full_path : str
+        full path to the file
+    ext : str
+        file extension
+    clear_name : str
+        file name without extension
     """
     def __init__(self, name: str, path_folder: str) -> None:
+        """
+        
+        Parameters
+        ----------
+        name : str
+            File name
+        path_folder : str
+            The folder where the file is located
+        """
         self.__name = name
         self.__path_folder = path_folder
         self.__full_path = path_folder + '\\' + name
@@ -243,6 +269,8 @@ def main():
     for file in files_raw:
         if os.path.isfile(m_dir + '\\' + file):
             files.append(File(file, m_dir))
+    logger.debug('Files : {}'.format(files))
+    logger.debug('Number of files : {}'.format(len(files)))
     s = Sort(files, args.unknown)
     s.sorting()
 
