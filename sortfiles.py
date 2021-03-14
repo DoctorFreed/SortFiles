@@ -1,4 +1,4 @@
-#TODO: задокументируй код!
+# TODO: задокументируй код!
 
 import json
 import os
@@ -98,9 +98,10 @@ class File:
     clear_name : str
         file name without extension
     """
+
     def __init__(self, name: str, path_folder: str) -> None:
         """
-        
+
         Parameters
         ----------
         name : str
@@ -149,7 +150,38 @@ class File:
 
 
 class Sort:
+    """
+    Class for sorting files
+
+    ...
+
+    Attributes
+    ----------
+    files : list
+        list of files to sort
+    unknown_mode : bool
+        A mode in which unknown extensions will be placed in the UNKNOWN folder(default False)
+
+    Methods
+    -------
+    search_path(paterns: dict, ext: str, old='') -> str
+        Finding the path to sort the file
+    rename_file(file: File, new_name='') -> str
+        Renaming a file
+    sorting() -> None
+        Sorting all files in an object
+    """
+
     def __init__(self, files: list, unknown_mode=False) -> None:
+        """
+
+        Parameters
+        ----------
+        files: list
+            list of files to sort
+        unknown_mode : bool, optional
+            A mode in which unknown extensions will be placed in the UNKNOWN folder(default False)
+        """
         self.__files = files
         self.__unknown_mode = unknown_mode
         logger.debug('An object of the Sort type was created. \n'
