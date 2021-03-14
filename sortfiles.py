@@ -97,6 +97,11 @@ class File:
         file extension
     clear_name : str
         file name without extension
+
+    Methods
+    -------
+    rename_file(new_name='') -> str
+        Renaming a file
     """
 
     def __init__(self, name: str, path_folder: str) -> None:
@@ -144,6 +149,17 @@ class File:
     def clear_name(self):
         return self.__clear_name
 
+    def rename_file(self, new_name='') -> str:
+        logger.debug('Renaming the file: {}'.format(self.name))
+        if not new_name:
+            new_name = self.clear_name + \
+                '(copy {})'.format(randint(1, 1000)) + self.ext
+            logger.debug('New name file: {}'.format(new_name))
+        else:
+            new_name = new_name + self.ext
+        logger.debug('File renaming completed, return {}'.format(new_name))
+        return new_name
+
 # ---------------------------------------------------------------------------
 #   Implementation of the Sort class
 # ---------------------------------------------------------------------------
@@ -166,8 +182,6 @@ class Sort:
     -------
     search_path(paterns: dict, ext: str, old='') -> str
         Finding the path to sort the file
-    rename_file(file: File, new_name='') -> str
-        Renaming a file
     sorting() -> None
         Sorting all files in an object
     """
@@ -199,17 +213,6 @@ class Sort:
                 return old + self.search_path(paterns[p], ext, str(p))
             else:
                 continue
-
-    def rename_file(self, file: File, new_name='') -> str:
-        logger.debug('Renaming the file: {}'.format(file.name))
-        if not new_name:
-            new_name = file.clear_name + \
-                '(copy {})'.format(randint(1, 1000)) + file.ext
-            logger.debug('New name file: {}'.format(new_name))
-        else:
-            new_name = new_name + file.ext
-        logger.debug('File renaming completed, return {}'.format(new_name))
-        return new_name
 
     def sorting(self) -> None:
         logger.debug('Start sorting files')
@@ -248,7 +251,7 @@ class Sort:
                 if os.path.isfile(new_path):
                     logger.error('File [{}] is already exist, rename it.'
                                  .format(file.name))
-                    new_name = self.rename_file(file)
+                    new_name = file.rename_file()
                     logger.debug('Attempt to move a file to a new location')
                     new_path = file.path_folder + '\\' + path_to_sort + new_name
                     logger.debug('Transferring a file [{}] move to [{}]'
