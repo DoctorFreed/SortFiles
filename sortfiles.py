@@ -153,7 +153,7 @@ class File:
         logger.debug('Renaming the file: {}'.format(self.name))
         if not new_name:
             new_name = self.clear_name + \
-                '(copy {})'.format(randint(1, 1000)) + self.ext
+                '(copy {})'.format(randint(1, 1000000)) + self.ext
             logger.debug('New name file: {}'.format(new_name))
         else:
             new_name = new_name + self.ext
@@ -260,6 +260,7 @@ class Sort:
                 else:
                     logger.error(
                         'The file could not be transferred in any way')
+                    continue
 
 # ---------------------------------------------------------------------------
 #   Function for configuring a template by JSON
