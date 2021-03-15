@@ -8,7 +8,25 @@
     ".wav",
     ".m4p",
     ".m4b",
-    ".m4a"
+    ".m4a",
+    ".3ga",
+    ".aa",
+    ".aac",
+    ".aax",
+    ".aif",
+    ".aifc",
+    ".aiff",
+    ".amr",
+    ".ape",
+    ".asx",
+    ".au",
+    ".aup",
+    ".awb",
+    ".caf",
+    ".cda",
+    ".gsm",
+    ".cdo",
+    ".iff"
   ],
   "Images": [
     ".png",
@@ -46,7 +64,13 @@
     ".tgz",
     ".zipx",
     ".tar-gz",
-    ".xar"
+    ".xar",
+    ".apk",
+    ".dd",
+    ".deb",
+    ".gzip",
+    ".jar",
+    ".rpm"
   ],
   "Video": [
     ".mp4",
@@ -76,7 +100,20 @@
   ],
   "Soft": [
     ".exe",
-    ".msi"
+    ".msi",
+    ".cmd",
+    ".air",
+    ".app",
+    ".bat",
+    ".cgi",
+    ".com",
+    ".ds",
+    ".gadget",
+    ".ipa",
+    ".pif",
+    ".scr",
+    ".vb",
+    ".wsf"
   ],
   "Source Code": {
     "C++": [
