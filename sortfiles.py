@@ -1,5 +1,3 @@
-# TODO: задокументируй код!
-
 import json
 import os
 import argparse
@@ -150,6 +148,21 @@ class File:
         return self.__clear_name
 
     def rename_file(self, new_name='') -> str:
+        """Rename a file in case of a name conflict
+
+        If the new_name argument is empty, a random number is added to the old name.
+        You do not need to specify the extension
+
+        Parametes
+        ---------
+        new_name : str, optional
+            New file name
+
+        Returns
+        -------
+        str
+            a str new file name
+        """
         logger.debug('Renaming the file: {}'.format(self.name))
         if not new_name:
             new_name = self.clear_name + \
@@ -201,16 +214,34 @@ class Sort:
         logger.debug('An object of the Sort type was created. \n'
                      'UNKNOW MODE = {}'.format(self.__unknown_mode))
 
-    def search_path(self, paterns: dict, ext: str, old='') -> str:
+    def search_path(self, template: dict, ext: str, old='') -> str:
+        """The function of finding path to sort file
+        function is recirsive
+
+        Parameters
+        ----------
+        template: dict
+            Sorting template, which folder belongs to which extension
+        ext : str
+            file extension
+        old : str, optional
+            The path that will gradually be supplemented along the course of the run according to the template
+        
+        Returns
+        -------
+        str
+            The path to sort the file
+
+        """
         logger.debug('The dictionary is being crawled to find the path')
-        for p in paterns:
-            if isinstance(paterns[p], list) and ext in paterns[p]:
+        for t in template:
+            if isinstance(template[t], list) and ext in template[t]:
                 logger.debug('Returning the path for sorting : {}'.format(
-                    old + '\\' + str(p) + '\\'))
-                return old + '\\' + str(p) + '\\'
-            elif isinstance(paterns[p], dict):
+                    old + '\\' + str(t) + '\\'))
+                return old + '\\' + str(t) + '\\'
+            elif isinstance(template[t], dict):
                 logger.debug('Checking the following dictionary')
-                return old + self.search_path(paterns[p], ext, str(p))
+                return old + self.search_path(template[t], ext, str(t))
             else:
                 continue
 
