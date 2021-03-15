@@ -1,1 +1,136 @@
-{"Audio": [".mp3", ".aac", ".flac", ".m4r", ".ogg", ".wav", ".m4p", ".m4b", ".m4a"], "Images": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".ico", ".psd"], "Documents": [".doc", ".pdf", ".txt", ".xlsx", ".pptx", ".docx", ".ppt", ".xls", ".ini"], "Torrents": [".torrent"], "Archives": [".gz", ".tar", ".zip", ".rar", ".7z"], "Video": [".mp4", ".flv", ".avi", ".mkv", ".mov", ".webm"], "Soft": [".exe", ".msi"], "Source Code": {"C++": [".cpp"], "Python": [".py"]}}
+{
+  "Audio": [
+    ".mp3",
+    ".aac",
+    ".flac",
+    ".m4r",
+    ".ogg",
+    ".wav",
+    ".m4p",
+    ".m4b",
+    ".m4a"
+  ],
+  "Images": [
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".gif",
+    ".ico",
+    ".psd"
+  ],
+  "Documents": [
+    ".doc",
+    ".pdf",
+    ".txt",
+    ".xlsx",
+    ".pptx",
+    ".docx",
+    ".ppt",
+    ".xls",
+    ".ini"
+  ],
+  "Torrents": [
+    ".torrent"
+  ],
+  "Archives": [
+    ".arj",
+    ".ace",
+    ".gz",
+    ".tar",
+    ".zip",
+    ".rar",
+    ".7z",
+    ".cbr",
+    ".sh",
+    ".tgz",
+    ".zipx",
+    ".tar-gz",
+    ".xar"
+  ],
+  "Video": [
+    ".mp4",
+    ".flv",
+    ".avi",
+    ".mkv",
+    ".mov",
+    ".webm",
+    ".3g2",
+    ".3gp",
+    ".3gp2",
+    ".3gpp",
+    ".3gpp2",
+    ".asf",
+    ".asx",
+    ".drv",
+    ".f4v",
+    ".gtp",
+    ".h264",
+    ".m4v",
+    ".moov",
+    ".mov",
+    ".mpeg",
+    ".mpg",
+    ".mts",
+    ".rmvb"
+  ],
+  "Soft": [
+    ".exe",
+    ".msi"
+  ],
+  "Source Code": {
+    "C++": [
+      ".cpp"
+    ],
+    "Python": [
+      ".py"
+    ]
+  },
+  "Book": [
+    ".mobi",
+    ".fb2",
+    ".epub",
+    ".aep",
+    ".vbk",
+    ".lit",
+    ".pef",
+    ".htmlz",
+    ".tr",
+    ".lrs",
+    ".edn",
+    ".apnx",
+    ".dnl",
+    ".ncx",
+    ".tcr",
+    ".tr3",
+    ".kfx",
+    ".etd",
+    ".azw1",
+    ".rzb",
+    ".html0",
+    ".lrx",
+    ".rzs",
+    ".tk3",
+    ".htz5",
+    ".htxt",
+    ".bpnueb",
+    ".bkk",
+    ".qmk",
+    ".koob",
+    ".tpz",
+    ".mart",
+    ".oeb",
+    ".ybk",
+    ".phl",
+    ".htz4",
+    ".azw4",
+    ".mbp",
+    ".pml",
+    ".azw",
+    ".opf",
+    ".ebk",
+    ".lrf",
+    ".prc",
+    ".azw3"
+  ]
+}
