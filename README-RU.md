@@ -61,7 +61,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#Required">Required</a></li>
+        <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
     <li>
@@ -85,13 +85,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project was created to reduce the garbage from files in folders, where I usually threw everything. Automatic sorting is of course a trivial task, personally I wanted this process to be as flexible and convenient as possible, so I decided that the sorting rules can be changed via a json file, in the future I will definitely add a GUI client for sorting, as well as a GUI for editing sorting rules in a json file. Even so, below you will find instructions on how to edit a json file manually using your text editor.
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+Данный проект был создан с целью уменьшения мусора из файлов в папках, куда обычно я все кидал. Автоматическая сортировка конечно тривиальная задача, лично я хотел что бы этот процесс был максимально гибкий и удобный, поэтому и решил что правила сортировки можно менять через json файл, в будущем я обязательно добавлю GUI клиент для сортировки, а так же GUI для редактирования правил сортировки в файле json. Но даже так, ниже вы найдете инструкцию как отредактировать json файл в ручную с помощью вашего редактора текста.
 
 
-### Required
+### Built With
 
-* [Python 3](https://www.python.org/downloads/)
-
+* []()
+* []()
+* []()
 
 
 
