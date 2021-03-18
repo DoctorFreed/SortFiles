@@ -102,17 +102,23 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+You need to install Python 3:
+
+* Windows 10
+
+  1. Go to the official Python website, in the installation section at [this link](https://www.python.org/downloads/), download and install python 3.
+        
+
+* Ubuntu/Debian/Fedora
   ```sh
-  npm install npm@latest -g
+  
   ```
 
 ### Installation
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/DoctorFreed/SortFiles.git
    ```
 2. Install NPM packages
    ```sh
