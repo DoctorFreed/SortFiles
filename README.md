@@ -109,10 +109,8 @@ You need to install Python 3:
   1. Go to the official Python website, in the installation section at [this link](https://www.python.org/downloads/), download and install python 3.
         
 
-* Ubuntu/Debian/Fedora
-  ```sh
-  
-  ```
+* Ubuntu/Debian/Fedora, etc : python is already installed
+
 
 ### Installation
 
@@ -120,17 +118,44 @@ You need to install Python 3:
    ```sh
    git clone https://github.com/DoctorFreed/SortFiles.git
    ```
-2. Install NPM packages
+   or
+   ![Clone repo](./images/clone.jpg)
+2. Running the script
    ```sh
-   npm install
+   python sortfiles.py -h
    ```
 
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+To get started, use the built-in documentation, for this you need to type in your console emulator:
+```sh
+python sortfiles.py -h
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+usage: sortfiles.py [-h] [-j JSON] [-u] [-d] [-l] folder
+
+SortFiles - script for sorting your files https://github.com/DoctorFreed/SortFiles
+
+positional arguments:
+  folder                Specify the folder where the files will be sorted
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -j JSON, --json JSON  The path to the json file, if the argument is not specified, the template.json file will be used. If there is no file, the   
+                        template that is already in the code will be used.
+  -u, --unknown         by specifying this argument, unknown formats will be sorted into the "UNKNOWN" folder. By default, this sorting does not     
+                        occur.
+  -d, --debug           writes all the work of the script to the debug.log file
+  -l, --log             writes to the info.log file about where the files were moved to
+```
+Now you can deal with each mode separately, it is important that each mod is optional and they can be combined together.
+
+The default use of the script:
+```sh
+python sortfiles.py 
+```
+
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 

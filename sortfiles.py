@@ -299,12 +299,13 @@ class Sort:
 
 
 def json_pars(path='template.json') -> None:
+    global TEMPLATE_EXT
     logger.debug('Configuring a JSON template')
     if os.path.isfile(path):
         logger.debug('The transferred file exists,'
                      ' it is being written to the dictionary')
-        with open(path, 'w') as file:
-            json.dump(TEMPLATE_EXT, file)
+        with open(path) as file:
+            TEMPLATE_EXT = json.loads(file)
         logger.debug('The dictionary is ready to use')
     else:
         logger.error('File {} does not exist'.format(path))
