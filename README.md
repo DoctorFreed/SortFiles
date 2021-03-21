@@ -153,7 +153,7 @@ Now you can deal with each mode separately, it is important that each mod is opt
 
 The default use of the script:
 ```sh
-python sortfiles.py 
+python sortfiles.py C:\MyFolder
 ```
 
 

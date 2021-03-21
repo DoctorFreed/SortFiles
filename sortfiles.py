@@ -241,7 +241,8 @@ class Sort:
                 return old + '\\' + str(t) + '\\'
             elif isinstance(template[t], dict):
                 logger.debug('Checking the following dictionary')
-                return old + self.search_path(template[t], ext, str(t))
+                #return old + self.search_path(template[t], ext, str(t))
+                self.search_path(template[t], ext, str(t))
             else:
                 continue
 
@@ -252,17 +253,19 @@ class Sort:
                 logger.debug(
                     '{} - looking for a sorting path in the template'.format(file.name))
                 path_to_sort = self.search_path(TEMPLATE_EXT, file.ext)
+                if not path_to_sort:
+                    logger.error(
+                        '{} - has an unknown extension {}'.format(file.name, file.ext))
+                    if self.__unknown_mode:
+                        logger.debug(
+                            'Unknown mode is enabled, the file will be moved to this folder')
+                        path_to_sort = 'UNKNOWN' + '\\'
+                    else:
+                        logger.debug(
+                            'Unknown mode is disabled, the file will not be moved')
+                        continue
             except:
-                logger.error(
-                    '{} - has an unknown extension {}'.format(file.name, file.ext))
-                if self.__unknown_mode:
-                    logger.debug(
-                        'Unknown mode is enabled, the file will be moved to this folder')
-                    path_to_sort = 'UNKNOWN' + '\\'
-                else:
-                    logger.debug(
-                        'Unknown mode is disabled, the file will not be moved')
-                    continue
+                logger.error('{} - Unable to move'.format(file.name))
             logger.debug('Checking for the existence of a folder - {}'
                          .format(file.path_folder + path_to_sort))
             if not os.path.isdir(file.path_folder + path_to_sort):
@@ -305,8 +308,9 @@ def json_pars(path='template.json') -> None:
         logger.debug('The transferred file exists,'
                      ' it is being written to the dictionary')
         with open(path) as file:
-            TEMPLATE_EXT = json.loads(file)
+            TEMPLATE_EXT = json.load(file)
         logger.debug('The dictionary is ready to use')
+        logger.debug(TEMPLATE_EXT)
     else:
         logger.error('File {} does not exist'.format(path))
         logger.debug('We use a ready-made template')
@@ -318,8 +322,6 @@ def json_pars(path='template.json') -> None:
 
 def main():
     args = parse_args()
-    if args.json:
-        json_pars(args.json)
     if args.debug:
         logger.setLevel(logging.DEBUG)
         logger.debug('The logging level is set to DEBUG')
@@ -330,6 +332,10 @@ def main():
     m_dir = args.folder + '\\'
     logger.debug(
         'The main directory [{}] for sorting is installed'.format(m_dir))
+    if args.json:
+        json_pars(args.json)
+    else:
+        json_pars()
     files_raw = os.listdir(m_dir)
     logger.debug('All files in the folder are received')
     logger.debug(files_raw)

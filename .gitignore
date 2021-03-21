@@ -124,7 +124,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#log
+# log
 .log
-#file
+# file
 create_file.py
+# DEBUG
+.vscode/
