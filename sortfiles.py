@@ -241,7 +241,6 @@ class Sort:
                 return old + '\\' + str(t) + '\\'
             elif isinstance(template[t], dict):
                 logger.debug('Checking the following dictionary')
-                #return old + self.search_path(template[t], ext, str(t))
                 self.search_path(template[t], ext, str(t))
             else:
                 continue

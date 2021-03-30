@@ -49,6 +49,8 @@
     <a href="https://github.com/DoctorFreed/SortFiles/issues">Report Bug</a>
     ·
     <a href="https://github.com/DoctorFreed/SortFiles/issues">Request Feature</a>
+    ·
+    <a href="https://github.com/DoctorFreed/SortFiles/issues">Russian</a>
   </p>
 </p>
 
@@ -184,25 +186,25 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the GNU GPL v3. See `LICENSE` for more information.
 
 <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
+Roman - [@De_Grace](https://t.me/De_Grace) - Telegram
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/DoctorFreed/SortFiles](https://github.com/DoctorFreed/SortFiles)
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* []()
-* []()
+* [Othneil Drew](https://github.com/othneildrew/Best-README-Template) for the cool README template
+* [Flaticon](https://www.flaticon.com/) for the icon for the project
+
 
 
 
