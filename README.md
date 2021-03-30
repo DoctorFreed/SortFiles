@@ -50,7 +50,7 @@
     ·
     <a href="https://github.com/DoctorFreed/SortFiles/issues">Request Feature</a>
     ·
-    <a href="https://github.com/DoctorFreed/SortFiles/issues">Russian</a>
+    <a href="https://github.com/DoctorFreed/SortFiles/blob/main/README-RU.md">Russian</a>
   </p>
 </p>
 
